@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Social Media App</string>
+    <string name="sign_in_text">Please sign in to your account through google</string>
+    <string name="loading_text">Loading...</string>
+    <string name="post_hint_text">What do you want to talk about ?</string>
+    <string name="profile_pic">profile pic</string>
+    <string name="like_image">like image</string>
+    <string name="sign_out_option">Sign out</string>
+</resources>
