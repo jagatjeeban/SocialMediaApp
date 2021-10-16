@@ -5,3 +5,4 @@ A simple social media app with features including sign in through a google accou
 * Firebase Cloud Store
 * Firebase RecyclerView
 * Glide Library
+* MVVM Architecture
