@@ -3,17 +3,17 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
+    id 'kotlin-parcelize'
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdk 34
+    namespace = "com.example.socialmediaap"
 
     defaultConfig {
         applicationId "com.example.socialmediaapp"
-        minSdkVersion 19
-        targetSdkVersion 30
+        minSdkVersion 23
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -26,6 +26,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    buildFeatures {
+        viewBinding true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -49,16 +52,16 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
     /* coroutines support for firebase operations */
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3'
 
 
     // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:28.3.0')
+    implementation platform('com.google.firebase:firebase-bom:33.4.0')
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.firebaseui:firebase-ui-firestore:6.4.0'
+    implementation 'com.firebaseui:firebase-ui-firestore:8.0.2'
 
-    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation 'com.google.android.gms:play-services-auth:21.2.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
     //glide

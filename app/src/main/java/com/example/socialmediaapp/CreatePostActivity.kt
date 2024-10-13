@@ -3,8 +3,8 @@ package com.example.socialmediaapp
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.socialmediaap.databinding.ActivityCreatePostBinding
 import com.example.socialmediaapp.daos.PostDao
-import kotlinx.android.synthetic.main.activity_create_post.*
 
 class CreatePostActivity : AppCompatActivity() {
 
@@ -12,23 +12,24 @@ class CreatePostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_post)
+        val binding = ActivityCreatePostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         postDao = PostDao()
 
-        post_button.setOnClickListener {
-            val input = post_input.text.toString().trim()
+        binding.postButton.setOnClickListener {
+            val input = binding.postInput.text.toString().trim()
 
             if (input.isNotEmpty()) {
                 postDao.addPost(input)
-                post_input.text = null
+                binding.postInput.text = null
                 finish()
             } else {
                 Toast.makeText(this, "Write something !", Toast.LENGTH_SHORT).show()
             }
         }
 
-        post_cancel_button.setOnClickListener {
+        binding.postCancelButton.setOnClickListener {
             finish()
         }
     }

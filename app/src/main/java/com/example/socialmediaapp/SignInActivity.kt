@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.example.socialmediaap.R
+import com.example.socialmediaap.databinding.ActivitySignInBinding
 import com.example.socialmediaapp.daos.UserDao
 import com.example.socialmediaapp.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -19,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,7 +37,8 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+        val binding = ActivitySignInBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -45,7 +48,7 @@ class SignInActivity : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        sign_in_button.setOnClickListener { signIn() }
+        binding.signInButton.setOnClickListener { signIn() }
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -63,6 +66,7 @@ class SignInActivity : AppCompatActivity() {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -88,13 +92,15 @@ class SignInActivity : AppCompatActivity() {
 
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+        val binding = ActivitySignInBinding.inflate(layoutInflater)
 
-        sign_in_button.visibility = View.GONE
-        sign_in_text.visibility = View.GONE
-        progress_bar.visibility = View.VISIBLE
-        loading_text.visibility = View.VISIBLE
+        binding.signInButton.visibility = View.GONE
+        binding.signInText.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
+        binding.loadingText.visibility = View.VISIBLE
 
         GlobalScope.launch(Dispatchers.IO) {
             val auth = auth.signInWithCredential(credential).await()
@@ -106,7 +112,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun updateUI(firebaseUser: FirebaseUser?) {
-
+        val binding = ActivitySignInBinding.inflate(layoutInflater)
         if (firebaseUser != null) {
 
             val user =
@@ -120,10 +126,10 @@ class SignInActivity : AppCompatActivity() {
             finish()
 
         } else {
-            sign_in_button.visibility = View.VISIBLE
-            sign_in_text.visibility = View.VISIBLE
-            progress_bar.visibility = View.GONE
-            loading_text.visibility = View.GONE
+            binding.signInButton.visibility = View.VISIBLE
+            binding.signInText.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
+            binding.loadingText.visibility = View.GONE
 
         }
     }

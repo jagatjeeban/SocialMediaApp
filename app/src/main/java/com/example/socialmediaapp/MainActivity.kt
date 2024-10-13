@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.example.socialmediaap.R
+import com.example.socialmediaap.databinding.ActivityMainBinding
 import com.example.socialmediaapp.daos.PostDao
 import com.example.socialmediaapp.model.Post
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -12,7 +14,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), IPostAdapter {
 
@@ -22,9 +23,10 @@ class MainActivity : AppCompatActivity(), IPostAdapter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             val intent = Intent(this, CreatePostActivity::class.java)
             startActivity(intent)
         }
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity(), IPostAdapter {
 
     private fun setUpRecyclerView() {
         postDao = PostDao()
-
+        val binding = ActivityMainBinding.inflate(layoutInflater)
         //getting recyclerViewOptions ready
         val postCollections = postDao.postCollection
         val query = postCollections.orderBy("createdAt", Query.Direction.DESCENDING)
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity(), IPostAdapter {
 
         adapter = PostAdapter(recyclerViewOptions, this)
 
-        recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter
     }
 
     /**
